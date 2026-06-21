@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Anonim Öneri • İstekr</title>
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
+    <style>
+        * { 
+            margin: 0; 
+            padding: 0; 
+            box-sizing: border-box; 
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: #280a0a;
+            color: white;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* back.css'teki nokta deseni efekti */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: radial-gradient(rgba(246, 59, 59, 0.2) 1px, transparent 1px);
+            background-size: 28px 28px;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        /* gradient glow efekti */
+        body::after {
+            content: "";
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 800px;
+            height: 800px;
+            background: radial-gradient(circle, rgba(246, 59, 59, 0.08), transparent 70%);
+            pointer-events: none;
+            z-index: 0;
+            border-radius: 50%;
+        }
+
+        .container {
+            background: rgba(22, 22, 28, 0.7);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(246, 59, 59, 0.25);
+            border-radius: 32px;
+            padding: 34px 30px 42px;
+            width: 100%;
+            max-width: 540px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(246, 59, 59, 0.1);
+            transition: all 0.3s ease;
+            position: relative;
+            z-index: 2;
+        }
+
+        .container:hover {
+            border-color: rgba(246, 59, 59, 0.45);
+            box-shadow: 0 30px 55px -12px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(246, 59, 59, 0.25);
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 12px;
+            font-size: 32px;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            background: linear-gradient(135deg, #ffffff 0%, #fa6060 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        h1::before {
+            content: "";
+            background: none;
+            -webkit-background-clip: unset;
+            color: #fa6060;
+            font-size: 34px;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: rgba(255, 255, 255, 0.55);
+            margin-bottom: 32px;
+            font-size: 14px;
+            font-weight: 400;
+            letter-spacing: 0.3px;
+            border-bottom: 1px dashed rgba(246, 59, 59, 0.35);
+            display: inline-block;
+            width: auto;
+            margin-left: auto;
+            margin-right: auto;
+            padding-bottom: 10px;
+        }
+
+        textarea {
+            width: 100%;
+            height: 150px;
+            background: rgba(12, 12, 16, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            color: #f0f0f0;
+            padding: 18px 20px;
+            font-size: 15px;
+            resize: vertical;
+            font-family: 'Inter', monospace;
+            transition: all 0.25s ease;
+            line-height: 1.55;
+            font-weight: 400;
+        }
+
+        textarea:focus {
+            outline: none;
+            border-color: #fa6060;
+            background: rgba(18, 18, 24, 0.9);
+            box-shadow: 0 0 0 3px rgba(246, 59, 59, 0.2);
+        }
+
+        textarea::placeholder {
+            color: rgba(255, 255, 255, 0.35);
+            font-weight: 400;
+        }
+
+        .file-upload {
+            margin: 20px 0 12px;
+        }
+
+        .file-upload label {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            background: rgba(30, 30, 38, 0.7);
+            border: 1px solid rgba(246, 59, 59, 0.25);
+            border-radius: 48px;
+            padding: 14px 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.25s;
+            font-weight: 500;
+            color: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(4px);
+            font-size: 14px;
+        }
+
+        .file-upload label:hover {
+            background: rgba(246, 59, 59, 0.15);
+            border-color: #fa6060;
+            transform: translateY(-2px);
+            color: white;
+        }
+
+        .file-upload input {
+            display: none;
+        }
+
+        .file-name {
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 12px;
+            margin-top: 10px;
+            text-align: center;
+            font-weight: 400;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 40px;
+            padding: 6px 14px;
+            display: inline-block;
+            width: auto;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .note {
+            color: #fa6060;
+            font-size: 12px;
+            margin: 16px 0 20px;
+            text-align: center;
+            font-weight: 500;
+            background: rgba(246, 59, 59, 0.08);
+            padding: 8px 12px;
+            border-radius: 40px;
+            letter-spacing: 0.3px;
+        }
+
+        .send-btn {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(105deg, #fa6060 0%, #f63b3b 100%);
+            color: white;
+            border: none;
+            border-radius: 48px;
+            font-size: 17px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+            box-shadow: 0 8px 20px rgba(246, 59, 59, 0.3);
+            letter-spacing: 0.5px;
+        }
+
+        .send-btn:hover {
+            opacity: 0.92;
+            transform: translateY(-2px) scale(1.01);
+            box-shadow: 0 12px 28px rgba(246, 59, 59, 0.4);
+        }
+
+        .send-btn:disabled {
+            opacity: 0.55;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .success {
+            display: none;
+            text-align: center;
+            padding: 30px 25px;
+            background: rgba(22, 22, 28, 0.7);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(246, 59, 59, 0.3);
+            border-radius: 32px;
+            max-width: 500px;
+            width: 100%;
+            position: relative;
+            z-index: 2;
+        }
+
+        .success h2 {
+            color: #fa6060;
+            margin-bottom: 12px;
+            font-size: 28px;
+            font-weight: 700;
+        }
+
+        .success p {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 15px;
+        }
+
+        .success button {
+            background: linear-gradient(105deg, #fa6060, #f63b3b);
+            color: white;
+            border: none;
+            padding: 12px 32px;
+            border-radius: 40px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.25s;
+            margin-top: 15px;
+        }
+
+        .success button:hover {
+            transform: scale(1.02);
+            opacity: 0.92;
+        }
+
+        /* mobil uyum */
+        @media (max-width: 520px) {
+            .container {
+                padding: 24px 20px 34px;
+            }
+            h1 {
+                font-size: 26px;
+            }
+            h1::before {
+                font-size: 28px;
+            }
+            .subtitle {
+                font-size: 12px;
+            }
+            textarea {
+                font-size: 14px;
+                padding: 14px 16px;
+            }
+            .send-btn {
+                padding: 14px;
+                font-size: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container" id="formContainer">
+        <h1>Anonim Öneri • İstek</h1>
+        <p class="subtitle">Kimliğin gizli kalacak, rahat ol</p>
+        <form id="öneriistekForm">
+            <textarea name="öneri" placeholder="Öneri •İsteğini yaz... (maks. 2000 karakter)" required maxlength="2000"></textarea>
+            <div class="file-upload">
+                <label for="file">📎 Fotoğraf / Video ekle</label>
+                <input type="file" id="file" name="media" accept="image/*,video/*" onchange="showFileName(this)">
+                <div class="file-name" id="fileName"></div>
+            </div>
+            <p class="note">⚠️ Dosya boyutu maksimum 100 MB olabilir</p>
+            <button type="submit" class="send-btn">Gönder →</button>
+        </form>
+    </div>
+    <div class="success" id="successMessage">
+        <h2>✅ Gönderildi!</h2>
+        <p>Öneri • İsteğin başarıyla iletildi. Rahatla.</p>
+        <br>
+        <button onclick="location.reload()">Yeni Öneri • İstek</button>
+    </div>
+    <script>
+        fetch('gonder.php', { method: 'HEAD' }).catch(() => {});
+
+        function showFileName(input) {
+            const fileNameDiv = document.getElementById('fileName');
+            if (input.files && input.files[0]) {
+                const sizeMB = (input.files[0].size / (1024 * 1024)).toFixed(2);
+                fileNameDiv.textContent = '📎 ' + input.files[0].name + ' (' + sizeMB + ' MB)';
+                fileNameDiv.style.color = "#fa6060";
+            } else {
+                fileNameDiv.textContent = '';
+            }
+        }
+
+        document.getElementById('öneriistekForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            const btn = this.querySelector('.send-btn');
+            const originalText = btn.textContent;
+            btn.textContent = 'Gönderiliyor...';
+            btn.disabled = true;
+            
+            const fileInput = document.getElementById('file');
+            if (fileInput.files[0]) {
+                const sizeMB = fileInput.files[0].size / (1024 * 1024);
+                if (sizeMB > 100) {
+                    alert('❌ Dosya 100MB\'dan küçük olmalı');
+                    btn.textContent = originalText;
+                    btn.disabled = false;
+                    return;
+                }
+            }
+            
+            const formData = new FormData(this);
+            try {
+                const response = await fetch('gonder.php', {
+                    method: 'POST',
+                    body: formData,
+                    signal: AbortSignal.timeout(90000)
+                });
+                const result = await response.json();
+                if (result.success) {
+                    document.getElementById('formContainer').style.display = 'none';
+                    document.getElementById('successMessage').style.display = 'block';
+                } else {
+                    alert('Hata: ' + (result.error || 'Bir sorun oluştu'));
+                }
+            } catch (err) {
+                alert('Bağlantı hatası! Lütfen tekrar dene.');
+                console.error(err);
+            }
+            btn.textContent = originalText;
+            btn.disabled = false;
+        });
+    </script>
+</body>
+</html>
