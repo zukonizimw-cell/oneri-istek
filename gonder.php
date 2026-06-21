@@ -10,7 +10,7 @@ ini_set('display_errors', 0);
 $telegramToken = "8761753927:AAFrVMhziZNflfozhQA6d1V1INQn7_iBi7A";
 $telegramChatID = "6671499665";
 
-$dosyaKlasoru = "uploads/";
+$dosyaKlasoru = "/tmp/uploads/";
 $maxDosyaBoyutu = 100 * 1024 * 1024;
 
 $response = ['success' => false, 'error' => ''];
