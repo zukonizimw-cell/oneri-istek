@@ -1,1 +1,0 @@
-# oneri-istek
